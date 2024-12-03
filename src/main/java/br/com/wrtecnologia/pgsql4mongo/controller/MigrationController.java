@@ -1,11 +1,17 @@
 package br.com.wrtecnologia.pgsql4mongo.controller;
 
+import br.com.wrtecnologia.pgsql4mongo.domain.mongodb.SensorDataDocument;
+import br.com.wrtecnologia.pgsql4mongo.service.SensorDataDocumentService;
 import br.com.wrtecnologia.pgsql4mongo.service.migration.ParallelMigrationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 @RestController
 public class MigrationController {
@@ -15,6 +21,9 @@ public class MigrationController {
     public MigrationController(ParallelMigrationService migrationService) {
         this.migrationService = migrationService;
     }
+
+    @Autowired
+    private SensorDataDocumentService documentoService;
 
     /*
     @GetMapping("/migrate")
@@ -62,6 +71,13 @@ public class MigrationController {
     public ResponseEntity<Long> getProgress() {
         long recordsProcessed = migrationService.getRecordsProcessed();
         return ResponseEntity.ok(recordsProcessed);
+    }
+
+    @GetMapping("/{idPg}")
+    public ResponseEntity<SensorDataDocument> buscarPorIdPg(@PathVariable Long idPg) {
+        System.out.println("ID recebido na URL: " + idPg);
+        Optional<SensorDataDocument> documento = documentoService.buscarPorIdPg(idPg);
+        return documento.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }

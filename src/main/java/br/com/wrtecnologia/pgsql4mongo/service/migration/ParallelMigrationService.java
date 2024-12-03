@@ -6,6 +6,7 @@ import br.com.wrtecnologia.pgsql4mongo.repository.SensorDataPgSqlRepository;
 import br.com.wrtecnologia.pgsql4mongo.service.MongoBatchInsertService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,6 +34,10 @@ public class ParallelMigrationService {
     }
 
     public void migrateData() {
+
+        // Reseta o contador sempre que a migração for iniciada
+        resetCounters();
+
         long startTime = System.currentTimeMillis(); // Marca o tempo de início
 
         int pageSize = 10000; // Tamanho de cada lote
@@ -45,7 +50,11 @@ public class ParallelMigrationService {
         for (int page = 0; page < totalPages; page++) {
             final int currentPage = page;
             CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
-                Pageable pageable = PageRequest.of(currentPage, pageSize);
+                try {
+
+                // Pageable pageable = PageRequest.of(currentPage, pageSize);
+
+                Pageable pageable = PageRequest.of(currentPage, pageSize, Sort.by("id").ascending());
                 List<SensorData> sensorDataList = postgresRepository.findAll(pageable).getContent();
 
                 List<SensorDataDocument> documents = sensorDataList.stream()
@@ -70,6 +79,9 @@ public class ParallelMigrationService {
                 if (processed % 1000 == 0) {
                     System.out.println("Progresso: " + processed + " registros processados.");
                 }
+                } catch (Exception e) {
+                    System.err.println("Erro ao processar página " + currentPage + ": " + e.getMessage());
+                }
             }, executor);
 
             futures.add(future);
@@ -88,10 +100,16 @@ public class ParallelMigrationService {
         long seconds = (durationMillis / 1000) % 60;
 
         // Exibe a mensagem final com o tempo e o total de registros processados
-        System.out.println(String.format("Migração concluída! Tempo gasto: %02d:%02d:%02d. Total de registros processados: %d", hours, minutes, seconds, recordsProcessed.get()));
+        System.out.println(String.format("Migração concluída! Tempo gasto: %02d:%02d:%02d. Total de registros processados: %d",
+                hours, minutes, seconds, recordsProcessed.get()));
     }
 
     public long getRecordsProcessed() {
         return recordsProcessed.get();
+    }
+
+    // Método para resetar o contador de registros processados
+    public void resetCounters() {
+        recordsProcessed.set(0); // Reseta o contador de registros processados
     }
 }
