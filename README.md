@@ -16,7 +16,7 @@ utilizando processamento paralelo e inserção em lotes. Inclui suporte para mon
 
 ### Pré-requisitos
 
-- Java 17 ou superior
+-   Java 17 ou superior
 - Maven 3.8+
 - Banco de dados **PostgreSQL** configurado
 - Banco de dados **MongoDB** configurado

@@ -29,13 +29,13 @@ public class ParallelMigrationService {
                                     MongoBatchInsertService mongoBatchInsertService) {
         this.postgresRepository = postgresRepository;
         this.mongoBatchInsertService = mongoBatchInsertService;
-        this.executor = Executors.newFixedThreadPool(4); // Configura 4 threads para o processamento paralelo
+        this.executor = Executors.newFixedThreadPool(32); // Configura 4 threads para o processamento paralelo
     }
 
     public void migrateData() {
         long startTime = System.currentTimeMillis(); // Marca o tempo de início
 
-        int pageSize = 1000; // Tamanho de cada lote
+        int pageSize = 10000; // Tamanho de cada lote
         long totalRecords = postgresRepository.count();
         long totalPages = (totalRecords + pageSize - 1) / pageSize; // Calcula o número de páginas
 
