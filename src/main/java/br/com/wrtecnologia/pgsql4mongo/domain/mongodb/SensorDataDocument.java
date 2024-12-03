@@ -16,6 +16,8 @@ public class SensorDataDocument implements Serializable {
 
     @Id
     private String id;
+
+    private Long idPg;
     private Double temperaturaCelsius;
     private Double temperaturaFahrenheit;
     private Double umidade;

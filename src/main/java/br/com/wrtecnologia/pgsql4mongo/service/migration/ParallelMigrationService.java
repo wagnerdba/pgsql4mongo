@@ -51,6 +51,7 @@ public class ParallelMigrationService {
                 List<SensorDataDocument> documents = sensorDataList.stream()
                         .map(sensorData -> {
                             SensorDataDocument document = new SensorDataDocument();
+                            document.setIdPg(sensorData.getId());
                             document.setTemperaturaCelsius(sensorData.getTemperaturaCelsius());
                             document.setTemperaturaFahrenheit(sensorData.getTemperaturaFahrenheit());
                             document.setUmidade(sensorData.getUmidade());
