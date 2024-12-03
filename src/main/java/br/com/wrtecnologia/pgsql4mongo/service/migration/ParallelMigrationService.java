@@ -30,17 +30,15 @@ public class ParallelMigrationService {
                                     MongoBatchInsertService mongoBatchInsertService) {
         this.postgresRepository = postgresRepository;
         this.mongoBatchInsertService = mongoBatchInsertService;
-        this.executor = Executors.newFixedThreadPool(32); // Configura 4 threads para o processamento paralelo
+        this.executor = Executors.newFixedThreadPool(32); // threads para o processamento paralelo
     }
 
     public void migrateData() {
 
-        // Reseta o contador sempre que a migração for iniciada
-        resetCounters();
+        resetCounters(); // Resetar o contador sempre que a migração for iniciada
 
-        long startTime = System.currentTimeMillis(); // Marca o tempo de início
-
-        int pageSize = 10000; // Tamanho de cada lote
+        long startTime = System.currentTimeMillis();
+        int pageSize = 100000; // Tamanho de cada lote
         long totalRecords = postgresRepository.count();
         long totalPages = (totalRecords + pageSize - 1) / pageSize; // Calcula o número de páginas
 
@@ -52,33 +50,35 @@ public class ParallelMigrationService {
             CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
                 try {
 
-                // Pageable pageable = PageRequest.of(currentPage, pageSize);
+                    // Pageable pageable = PageRequest.of(currentPage, pageSize);
 
-                Pageable pageable = PageRequest.of(currentPage, pageSize, Sort.by("id").ascending());
-                List<SensorData> sensorDataList = postgresRepository.findAll(pageable).getContent();
+                    Pageable pageable = PageRequest.of(currentPage, pageSize, Sort.by("id").ascending());
+                    List<SensorData> sensorDataList = postgresRepository.findAll(pageable).getContent();
 
-                List<SensorDataDocument> documents = sensorDataList.stream()
-                        .map(sensorData -> {
-                            SensorDataDocument document = new SensorDataDocument();
-                            document.setIdPg(sensorData.getId());
-                            document.setTemperaturaCelsius(sensorData.getTemperaturaCelsius());
-                            document.setTemperaturaFahrenheit(sensorData.getTemperaturaFahrenheit());
-                            document.setUmidade(sensorData.getUmidade());
-                            document.setDataHora(sensorData.getDataHora());
-                            document.setUuid(sensorData.getUuid());
-                            return document;
-                        })
-                        .toList();
+                    List<SensorDataDocument> documents = sensorDataList.stream()
+                            .map(sensorData -> {
+                                SensorDataDocument document = new SensorDataDocument();
+                                document.setIdPg(sensorData.getId());
+                                document.setTemperaturaCelsius(sensorData.getTemperaturaCelsius());
+                                document.setTemperaturaFahrenheit(sensorData.getTemperaturaFahrenheit());
+                                document.setUmidade(sensorData.getUmidade());
+                                document.setDataHora(sensorData.getDataHora());
+                                document.setUuid(sensorData.getUuid());
+                                return document;
+                            })
+                            .toList();
 
-                mongoBatchInsertService.batchInsert(documents);
+                    mongoBatchInsertService.batchInsert(documents);
 
-                // Atualiza o contador após inserir o lote
-                long processed = recordsProcessed.addAndGet(sensorDataList.size());
+                    // Atualiza o contador após inserir o lote
+                    long processed = recordsProcessed.addAndGet(sensorDataList.size());
 
-                // Exibe o progresso a cada 1000 registros
-                if (processed % 1000 == 0) {
-                    System.out.println("Progresso: " + processed + " registros processados.");
-                }
+                    // Exibe o progresso a cada 1000 registros
+                    /*
+                    if (processed % 1000 == 0) {
+                        System.out.println("Progresso: " + processed + " registros processados.");
+                    }
+                     */
                 } catch (Exception e) {
                     System.err.println("Erro ao processar página " + currentPage + ": " + e.getMessage());
                 }
@@ -100,7 +100,7 @@ public class ParallelMigrationService {
         long seconds = (durationMillis / 1000) % 60;
 
         // Exibe a mensagem final com o tempo e o total de registros processados
-        System.out.println(String.format("Migração concluída! Tempo gasto: %02d:%02d:%02d. Total de registros processados: %d",
+        System.out.println(String.format("Migração concluída! Tempo gasto: %02d:%02d:%02d. Total de registros inseridos: %d",
                 hours, minutes, seconds, recordsProcessed.get()));
     }
 
