@@ -1,4 +1,4 @@
-package br.com.wrtecnologia.pgsql4mongo.domain;
+package br.com.wrtecnologia.pgsql4mongo.domain.pgsql;
 
 
 import jakarta.persistence.*;
