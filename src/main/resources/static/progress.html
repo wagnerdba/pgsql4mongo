@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progresso da Migração</title>
+    <script>
+        // Função para buscar o progresso
+        function fetchProgress() {
+            fetch('/api/progress') // Endpoint deve incluir "/api" se configurado
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Erro na requisição: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('progress').innerText = `Registros processados: ${data}`;
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar progresso:', error);
+                });
+        }
+
+        // Atualiza a cada 1 segundo
+        setInterval(fetchProgress, 1000);
+
+        // Atualiza imediatamente ao carregar
+        window.onload = fetchProgress;
+    </script>
+</head>
+<body>
+<h1>Status da Migração</h1>
+<p id="progress">Carregando progresso...</p>
+</body>
+</html>
