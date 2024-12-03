@@ -74,11 +74,11 @@ public class ParallelMigrationService {
                     long processed = recordsProcessed.addAndGet(sensorDataList.size());
 
                     // Exibe o progresso a cada 1000 registros
-                    /*
+
                     if (processed % 1000 == 0) {
-                        System.out.println("Progresso: " + processed + " registros processados.");
+                        System.out.println("Progresso: " + processed + " registros inseridos.");
                     }
-                     */
+
                 } catch (Exception e) {
                     System.err.println("Erro ao processar página " + currentPage + ": " + e.getMessage());
                 }
