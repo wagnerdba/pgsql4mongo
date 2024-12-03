@@ -151,4 +151,4 @@ Este projeto está licenciado sob a **MIT License**. Você é livre para usar e 
 
 ## Autor
 
-Wagner Pires - [LinkedIn](URL_DO_LINKEDIN) | [GitHub](URL_DO_GITHUB)
+Wagner Pires - [LinkedIn](https://www.linkedin.com/in/wagner-pires-013a722b3) | [GitHub](https://github.com/wagnerdba)
