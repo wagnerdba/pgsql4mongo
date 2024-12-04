@@ -9,11 +9,11 @@ import java.util.List;
 @Service
 public class MongoBatchInsertService {
 
-    private final MongoTemplate mongoTemplate;
-
     public MongoBatchInsertService(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
+
+    private final MongoTemplate mongoTemplate;
 
     public void batchInsert(List<SensorDataDocument> documents) {
         mongoTemplate.insert(documents, SensorDataDocument.class);
