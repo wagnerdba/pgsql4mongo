@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: pgsql4mongo
+
+  datasource:
+    url: jdbc:postgresql://192.168.1.9:5433/sensordb
+    username: postgres
+    password: 123456
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/test
+      auto-index-creation: true
+
+#logging:
+#  level:
+#    org.springframework.web: DEBUG
