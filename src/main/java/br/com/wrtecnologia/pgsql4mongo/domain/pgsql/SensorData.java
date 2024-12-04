@@ -2,7 +2,6 @@ package br.com.wrtecnologia.pgsql4mongo.domain.pgsql;
 
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
