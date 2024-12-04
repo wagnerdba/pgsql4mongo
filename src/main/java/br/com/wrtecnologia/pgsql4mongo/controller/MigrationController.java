@@ -22,7 +22,6 @@ public class MigrationController {
         this.migrationService = migrationService;
     }
 
-    @Autowired
     private SensorDataDocumentService documentoService;
 
     @GetMapping("/migrate")

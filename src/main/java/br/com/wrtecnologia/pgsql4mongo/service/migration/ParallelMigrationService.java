@@ -2,7 +2,7 @@ package br.com.wrtecnologia.pgsql4mongo.service.migration;
 
 import br.com.wrtecnologia.pgsql4mongo.domain.mongodb.SensorDataDocument;
 import br.com.wrtecnologia.pgsql4mongo.domain.pgsql.SensorData;
-import br.com.wrtecnologia.pgsql4mongo.repository.SensorDataPgSqlRepository;
+import br.com.wrtecnologia.pgsql4mongo.repository.pgsql.SensorDataPgSqlRepository;
 import br.com.wrtecnologia.pgsql4mongo.service.MongoBatchInsertService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

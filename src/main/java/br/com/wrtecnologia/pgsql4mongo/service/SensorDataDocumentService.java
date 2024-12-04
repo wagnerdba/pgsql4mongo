@@ -1,7 +1,7 @@
 package br.com.wrtecnologia.pgsql4mongo.service;
 
 import br.com.wrtecnologia.pgsql4mongo.domain.mongodb.SensorDataDocument;
-import br.com.wrtecnologia.pgsql4mongo.repository.SensorDataDocumentRepository;
+import br.com.wrtecnologia.pgsql4mongo.repository.mongodb.SensorDataDocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
