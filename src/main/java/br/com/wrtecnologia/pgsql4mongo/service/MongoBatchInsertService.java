@@ -8,6 +8,7 @@ import java.util.List;
 
 @Service
 public class MongoBatchInsertService {
+
     private final MongoTemplate mongoTemplate;
 
     public MongoBatchInsertService(MongoTemplate mongoTemplate) {
