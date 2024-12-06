@@ -103,7 +103,7 @@ public class MigrationController {
     public String startMigration() {
         System.out.println("Migração iniciada! Aguarde...");
         migrationService.migrateData();
-        return "Migração Concluída! Consulte os logs da aplicação para detalhes";
+        return "Migracao Concluida! Consulte os logs da aplicacao para detalhes";
     }
 
     @GetMapping("/progress")

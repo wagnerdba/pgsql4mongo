@@ -80,7 +80,7 @@ public class ParallelMigrationService {
                     }
                     */
                 } catch (Exception e) {
-                    System.err.println("Erro ao processar página " + currentPage + ": " + e.getMessage());
+                    System.err.println("Erro ao processar pagina " + currentPage + ": " + e.getMessage());
                 }
             }, executor);
 
@@ -100,7 +100,7 @@ public class ParallelMigrationService {
         long seconds = (durationMillis / 1000) % 60;
 
         // Exibe a mensagem final com o tempo e o total de registros processados
-        System.out.println(String.format("Migração concluída! Tempo gasto: %02d:%02d:%02d. Total de registros inseridos: %d",
+        System.out.println(String.format("Migracao concluida! Tempo gasto: %02d:%02d:%02d. Total de registros inseridos: %d",
                 hours, minutes, seconds, recordsProcessed.get()));
     }
 
@@ -108,7 +108,6 @@ public class ParallelMigrationService {
         return recordsProcessed.get();
     }
 
-    // Método para resetar o contador de registros processados
     public void resetCounters() {
         recordsProcessed.set(0); // Reseta o contador de registros processados
     }

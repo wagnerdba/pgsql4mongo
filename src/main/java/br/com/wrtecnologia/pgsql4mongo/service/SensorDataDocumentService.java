@@ -5,6 +5,7 @@ import br.com.wrtecnologia.pgsql4mongo.repository.mongodb.SensorDataDocumentRepo
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.concurrent.*;
 
 @Service
 public class SensorDataDocumentService {
@@ -19,4 +20,5 @@ public class SensorDataDocumentService {
         System.out.println("Buscando documento com idPg: " + idPg);
         return documentoRepository.findByIdPg(idPg);
     }
+
 }
