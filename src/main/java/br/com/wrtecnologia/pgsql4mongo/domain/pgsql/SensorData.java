@@ -2,12 +2,15 @@ package br.com.wrtecnologia.pgsql4mongo.domain.pgsql;
 
 
 import jakarta.persistence.*;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table
 public class SensorData implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id

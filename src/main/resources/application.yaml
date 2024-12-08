@@ -14,4 +14,8 @@ spring:
 
 #logging:
 #  level:
+#    org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: ERROR
+
+#logging:
+#  level:
 #    org.springframework.web: DEBUG

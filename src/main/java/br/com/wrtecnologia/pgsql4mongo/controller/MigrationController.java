@@ -1,13 +1,10 @@
 package br.com.wrtecnologia.pgsql4mongo.controller;
 
 import br.com.wrtecnologia.pgsql4mongo.domain.mongodb.SensorDataDocument;
-import br.com.wrtecnologia.pgsql4mongo.service.SensorDataDocumentService;
+import br.com.wrtecnologia.pgsql4mongo.service.MongoBatchService;
 import br.com.wrtecnologia.pgsql4mongo.service.migration.ParallelMigrationService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -16,12 +13,12 @@ public class MigrationController {
 
     private final ParallelMigrationService migrationService;
 
-    public MigrationController(ParallelMigrationService migrationService, SensorDataDocumentService documentoService) {
+    public MigrationController(ParallelMigrationService migrationService, MongoBatchService documentoService) {
         this.migrationService = migrationService;
         this.documentoService = documentoService;
     }
 
-    private final SensorDataDocumentService documentoService;
+    private final MongoBatchService documentoService;
 
     @GetMapping("/migrate")
     public String showMigrationPage() {
@@ -101,7 +98,9 @@ public class MigrationController {
 
     @PostMapping("/migrate/start")
     public String startMigration() {
+        System.out.println("-".repeat(77));
         System.out.println("Migração iniciada! Aguarde...");
+        System.out.println("-".repeat(77));
         migrationService.migrateData();
         return "Migracao Concluida! Consulte os logs da aplicacao para detalhes";
     }
@@ -115,11 +114,10 @@ public class MigrationController {
 
      */
 
-    @GetMapping("/{idPg}")
+    @GetMapping("/api/{idPg}")
     public ResponseEntity<SensorDataDocument> buscarPorIdPg(@PathVariable Long idPg) {
         System.out.println("ID recebido na URL: " + idPg);
         Optional<SensorDataDocument> documento = documentoService.buscarPorIdPg(idPg);
         return documento.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
-
 }

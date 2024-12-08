@@ -29,7 +29,13 @@ public class MigrationJob {
         return totalRecords;
     }
 
+    /*
     public double getProgressPercentage() {
         return totalRecords == 0 ? 0 : (processedRecords.get() * 100.0 / totalRecords);
+    }
+     */
+
+    public int getProgressPercentage() {
+        return totalRecords == 0 ? 0 : (int) Math.round(processedRecords.get() * 100.0 / totalRecords);
     }
 }
