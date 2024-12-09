@@ -105,15 +105,6 @@ public class MigrationController {
         return "Migracao Concluida! Consulte os logs da aplicacao para detalhes";
     }
 
-    /*
-    @GetMapping("/progress")
-    public ResponseEntity<Long> getProgress() {
-        long recordsProcessed = migrationService.getRecordsProcessed();
-        return ResponseEntity.ok(recordsProcessed);
-    }
-
-     */
-
     @GetMapping("/api/{idPg}")
     public ResponseEntity<SensorDataDocument> buscarPorIdPg(@PathVariable Long idPg) {
         System.out.println("ID recebido na URL: " + idPg);
