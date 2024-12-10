@@ -92,6 +92,12 @@ public class ParallelMigrationService {
                 }
             }, executor);
             futures.add(future);
+
+            /* //for debug only
+            if(page == 2){
+                break;
+            }
+             */
         }
 
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();

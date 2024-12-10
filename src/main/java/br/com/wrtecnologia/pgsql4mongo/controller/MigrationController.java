@@ -105,6 +105,7 @@ public class MigrationController {
         return "Migracao Concluida! Consulte os logs da aplicacao para detalhes";
     }
 
+    @CrossOrigin(origins = "*") // Permite todas as origens
     @GetMapping("/api/{idPg}")
     public ResponseEntity<SensorDataDocument> buscarPorIdPg(@PathVariable Long idPg) {
         System.out.println("ID recebido na URL: " + idPg);
